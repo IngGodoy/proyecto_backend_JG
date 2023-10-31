@@ -40,7 +40,6 @@ export class ProductsManager{
             if (key === 'status' || key === 'thumbnail') {
                 continue; // Saltar la verificación de la llave 'status'y 'thumbnail'
             }
-            console.log(key + ' --- ' + newProduct[key]); // Borrar
             if (typeof newProduct[key] === 'undefined' || newProduct[key] === null || newProduct[key] === '') {
                 return false;
             };

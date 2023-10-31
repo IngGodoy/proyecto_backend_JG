@@ -49,28 +49,28 @@ export class CartsManager {
             if(cartById){
                 return cartById;
              }else{
-                return "Not found"
+                return false;
              };
         }catch(error) {
             console.log(error);
         };
     };
 
-    async saveProductToCart(IdCart, IdProduct){
-        const cartById = await this.getCartById(IdCart);
+    async saveProductToCart(idCart, idProduct){
+        const cartById = await this.getCartById(idCart);
         if (cartById != "Not found"){
-            const checkProductoById = cartById.products.find((product) => product.id === IdProduct);
-            if (checkProductoById) {
+            const checkProductByCart = cartById.products.find((product) => product.id === idProduct);
+            if (checkProductByCart) {
                 cartById.quantity + 1;
             } else{
                 const newProduct ={
-                    id: productById,
+                    id: idProduct,
                     quantity: 1
                 };
                 cartById.products.push(newProduct);
             };
             return cartById;
-        }else return "Not found cart by id";
+        }else return false;
     };
 
 };
