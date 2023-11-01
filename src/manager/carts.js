@@ -10,7 +10,7 @@ export class CartsManager {
         try {
             if(fs.existsSync(this.path)) {
                const cartsJSON = await fs.promises.readFile(this.path, 'utf-8');
-               return JSON.parse(cartsJSON);
+               return JSON.parse(cartsJSON); // revisar esto, ya que si hay archivo falla.
             } else return [];
         } catch (error) {
             console.log(error);
@@ -55,20 +55,26 @@ export class CartsManager {
             console.log(error);
         };
     };
-
+    // revisar el formato del nuevo cart
     async saveProductToCart(idCart, idProduct){
+        const carts = await this.getCarts();
         const cartById = await this.getCartById(idCart);
         if (cartById != "Not found"){
-            const checkProductByCart = cartById.products.find((product) => product.id === idProduct);
-            if (checkProductByCart) {
-                cartById.quantity + 1;
+            const indexProductByCart = cartById.products.findIndex((product) => product.id === idProduct);
+            const indexCartById = carts.findIndex((cart) => cart.id === idCart);
+            if (indexProductByCart != -1) {
+                const i = carts[indexCartById ].products[indexProductByCart] ++; //revisar esta linea
+                console.log("ver i: ", i)
             } else{
-                const newProduct ={
+                const newProduct = {
                     id: idProduct,
                     quantity: 1
                 };
                 cartById.products.push(newProduct);
+                carts[indexCartById ] = cartById;
             };
+            console.log("ver carts",carts) // borrar
+            await fs.promises.writeFile(this.path, JSON.stringify(carts));
             return cartById;
         }else return false;
     };

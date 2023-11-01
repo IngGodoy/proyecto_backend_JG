@@ -43,7 +43,7 @@ router.post("/:cid/product/:pid", async (request, response) => {
     } else response.status(400).json("Not found cart by id");
     }else response.status(400).json("Not found product by id");
 
-    // revisar porque no esta ni sumando ni haciendo push para un nuevo elemento
+    // revisar porque no esta sumando cuando el producto esta sumando
 });
 
 export default router;
