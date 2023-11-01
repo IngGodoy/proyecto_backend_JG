@@ -55,16 +55,15 @@ export class CartsManager {
             console.log(error);
         };
     };
-    // revisar el formato del nuevo cart
+    
     async saveProductToCart(idCart, idProduct){
         const carts = await this.getCarts();
         const cartById = await this.getCartById(idCart);
-        if (cartById != "Not found"){
+        if (cartById){
             const indexProductByCart = cartById.products.findIndex((product) => product.id === idProduct);
             const indexCartById = carts.findIndex((cart) => cart.id === idCart);
             if (indexProductByCart != -1) {
-                const i = carts[indexCartById ].products[indexProductByCart] ++; //revisar esta linea
-                console.log("ver i: ", i)
+                const i = carts[indexCartById ].products[indexProductByCart].quantity ++; 
             } else{
                 const newProduct = {
                     id: idProduct,
@@ -73,7 +72,6 @@ export class CartsManager {
                 cartById.products.push(newProduct);
                 carts[indexCartById ] = cartById;
             };
-            console.log("ver carts",carts) // borrar
             await fs.promises.writeFile(this.path, JSON.stringify(carts));
             return cartById;
         }else return false;

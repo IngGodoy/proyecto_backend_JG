@@ -6,6 +6,7 @@ const router = Router();
 const cartsManager = new CartsManager();
 const productPath = "./src/data/products.json"
 
+
 router.post("/", async (request, response)=>{
     try{
         const newCart = await cartsManager.addCart();
@@ -38,12 +39,10 @@ router.post("/:cid/product/:pid", async (request, response) => {
     if(checkProduct){
        const cart = await cartsManager.saveProductToCart(idCart, idProdt);
        if (cart){
-        console.log(cart);
         response.status(200).json(cart);
     } else response.status(400).json("Not found cart by id");
     }else response.status(400).json("Not found product by id");
 
-    // revisar porque no esta sumando cuando el producto esta sumando
 });
 
 export default router;
